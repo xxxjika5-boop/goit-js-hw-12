@@ -58,7 +58,9 @@ async function onFormSubmit(event) {
 
       createGallery(data.hits);
 
-    if (data.hits.length < totalHits) {
+    const loadedImagesCount = galleryEl.children.length;
+
+if (loadedImagesCount < totalHits) {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
@@ -78,7 +80,9 @@ async function onFormSubmit(event) {
 }
 
 async function onLoadMore() {
-  currentPage += 1;
+    currentPage += 1;
+    
+    hideLoadMoreButton();
 
   try {
     showLoader();

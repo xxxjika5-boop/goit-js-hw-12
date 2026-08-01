@@ -80,9 +80,9 @@ if (loadedImagesCount < totalHits) {
 }
 
 async function onLoadMore() {
-    currentPage += 1;
-    
-    hideLoadMoreButton();
+  currentPage += 1;
+
+  hideLoadMoreButton(); // ховаємо одразу
 
   try {
     showLoader();
@@ -93,13 +93,16 @@ async function onLoadMore() {
 
     const loadedImagesCount = galleryEl.children.length;
 
-    if (loadedImagesCount >= totalHits || !data.hits.length) {
+    if (loadedImagesCount < totalHits && data.hits.length > 0) {
+      showLoadMoreButton();   // ← Повертаємо кнопку, якщо ще є зображення
+    } else {
       hideLoadMoreButton();
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
       });
     }
+
   } catch (error) {
     iziToast.error({
       message: 'Something went wrong. Try again later.',
@@ -109,6 +112,7 @@ async function onLoadMore() {
     hideLoader();
   }
 }
+
 function handleScroll() {
   const firstCard = document.querySelector('.gallery-item');
   if (!firstCard) return;
